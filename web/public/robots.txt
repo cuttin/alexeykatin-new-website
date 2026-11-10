@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alexeykatin.xyz/sitemap-index.xml

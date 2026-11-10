@@ -1,0 +1,70 @@
+---
+// Every page. `nav` = false hides the About / Projects / CV menu (the memories section has no menu, so nothing
+// in the main site points at it except the one link on /about/). `current` highlights a menu item.
+import '../styles/site.css';
+
+const {
+  title,
+  description,
+  lang = 'en',
+  nav = true,
+  current = '',
+  wide = false,
+  ogType = 'website',
+  ogImage = '/img/alexey-katin.jpg',
+  jsonLd = null,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const MENU = [['/about/', 'About', 'about'], ['/projects/', 'Projects', 'projects'], ['/cv/', 'CV', 'cv']];
+const SCHOLAR = 'https://scholar.google.com/citations?user=zziLmMUAAAAJ&hl=en';
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content={ogType}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:image" content={new URL(ogImage, Astro.site).href}>
+<meta name="twitter:card" content="summary">
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+<script is:inline>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<div class:list={['wrap', { wide }]}>
+<header class="top">
+  <a class="n" href="/">Alexey Katin</a>
+  <nav>
+    {nav && MENU.map(([href, label, key]) => <a href={href} class:list={{ on: current === key }}>{label}</a>)}
+    <button class="theme" type="button" aria-label="Switch theme" title="Switch theme"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+  </nav>
+</header>
+<main>
+<slot />
+</main>
+<footer lang="en"><span>Alexey Katin</span><span><a href="https://github.com/cuttin">GitHub</a> · <a href="https://www.linkedin.com/in/alexey-katin-77603517/">LinkedIn</a> · <a href={SCHOLAR}>Google Scholar</a> · <a href="mailto:alexey.katin@gmail.com">Email</a></span></footer>
+</div>
+<script is:inline>
+(function(){
+  var btn=document.querySelector('.theme'), root=document.documentElement;
+  var sys=matchMedia('(prefers-color-scheme: light)');
+  var ru=root.lang==='ru';
+  function isDark(){return root.dataset.theme ? root.dataset.theme==='dark' : !sys.matches;}
+  function label(){var l=isDark()?(ru?'Светлая тема':'Switch to light theme'):(ru?'Темная тема':'Switch to dark theme'); btn.setAttribute('aria-label',l); btn.title=l;}
+  btn.addEventListener('click',function(){
+    var t=isDark()?'light':'dark'; root.dataset.theme=t;
+    try{localStorage.setItem('theme',t);}catch(e){}
+    label();
+  });
+  sys.addEventListener('change',label);
+  label();
+})();
+</script>
+</body>
+</html>

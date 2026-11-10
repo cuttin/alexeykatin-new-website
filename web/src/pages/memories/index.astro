@@ -1,0 +1,47 @@
+---
+// Russian travel notes from japanforayear.ru. Reached only from the link on /about/; indexable on purpose.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { allMemories, CATS, month, photoCount } from '../../lib/memories.js';
+
+const posts = await allMemories();
+const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
+---
+<Base title="Заметки на память · Алексей Катин" description="Год по обмену в Японии, поездки по Азии и первые годы в Северной Каролине. Записи 2014-2021." lang="ru" nav={false} wide>
+<h1>Заметки на память</h1>
+<p class="intro">Год по обмену в Японии, поездки по Азии и первые годы в Северной Каролине. Записи 2014-2021.</p>
+<div class="chips" role="group" aria-label="Категории">
+  <button type="button" data-cat="all" aria-pressed="true">Все</button>
+  {CATS.map((c) => <button type="button" data-cat={c} aria-pressed="false">{c}</button>)}
+</div>
+{years.map((y) => (
+  <Fragment>
+    <p class="year" data-year={y}>{y}</p>
+    {posts.filter((p) => p.data.date.getUTCFullYear() === y).map((p) => (
+      <div class="entry" data-cat={p.data.category} data-year={y}>
+        <span class="d">{month(p.data.date)}</span>
+        <div>
+          <h3><a href={`/memories/${p.id}/`}>{p.data.title}</a></h3>
+          {p.photos.length > 0 && (
+            <div class="strip">{p.photos.slice(0, 4).map((img) => <Image src={img} width={240} alt="" />)}</div>
+          )}
+          <p class="more">{p.photos.length ? photoCount(p.photos.length) : 'текст'}<span class="c">{p.data.category}</span></p>
+        </div>
+      </div>
+    ))}
+  </Fragment>
+))}
+<script is:inline>
+(function(){
+  var chips=document.querySelectorAll('.chips button');
+  chips.forEach(function(b){b.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+    var c=b.dataset.cat;
+    document.querySelectorAll('.entry').forEach(function(e){e.hidden = c!=='all' && e.dataset.cat!==c;});
+    document.querySelectorAll('.year').forEach(function(y){
+      y.hidden = !document.querySelector('.entry[data-year="'+y.dataset.year+'"]:not([hidden])');
+    });
+  });});
+})();
+</script>
+</Base>

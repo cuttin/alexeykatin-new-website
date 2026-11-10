@@ -1,0 +1,36 @@
+---
+import { getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { allMemories, longDate, photoCount } from '../../lib/memories.js';
+
+export async function getStaticPaths() {
+  const posts = await allMemories();
+  // posts are newest first: the next item in the list is the older post
+  return posts.map((p, i) => ({
+    params: { slug: p.id },
+    props: { p, older: posts[i + 1], newer: posts[i - 1] },
+  }));
+}
+
+const { p, older, newer } = Astro.props;
+const { Content } = await render(p);
+const og = p.data.cover ? (await getImage({ src: p.data.cover, width: 1200, format: 'jpg' })).src : undefined;
+const description = `${p.data.title}. ${longDate(p.data.date)}, заметки на память.`;
+---
+<Base title={`${p.data.title} · Заметки на память`} description={description} lang="ru" nav={false} wide ogType="article" ogImage={og}>
+<article class="post">
+  <div class="text">
+    <a class="back" href="/memories/">← Все заметки</a>
+    <h1>{p.data.title}</h1>
+    <p class="meta">{longDate(p.data.date)} · {p.data.category}{p.photos.length > 0 && ` · ${photoCount(p.photos.length)}`}</p>
+  </div>
+  <Content />
+  <div class="text">
+    <nav class="pager" aria-label="Соседние заметки">
+      {older ? <a href={`/memories/${older.id}/`}><small>← раньше</small>{older.data.title}</a> : <span></span>}
+      {newer && <a href={`/memories/${newer.id}/`} style="text-align:right"><small>позже →</small>{newer.data.title}</a>}
+    </nav>
+  </div>
+</article>
+</Base>

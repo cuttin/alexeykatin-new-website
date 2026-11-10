@@ -1,0 +1,5 @@
+node_modules/
+web/dist/
+web/.astro/
+web/.wrangler/
+design/

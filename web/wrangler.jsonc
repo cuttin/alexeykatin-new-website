@@ -1,0 +1,11 @@
+// Cloudflare Workers static assets: serves the Astro build in dist/ with no Worker script.
+// Deployed by .github/workflows/deploy.yml (wrangler deploy, run from web/).
+{
+  "name": "alexeykatin",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

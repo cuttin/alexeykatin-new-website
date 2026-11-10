@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+
+const SCHOLAR = 'https://scholar.google.com/citations?user=zziLmMUAAAAJ&hl=en';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Alexey Katin',
+  url: Astro.site.href,
+  image: new URL('/img/alexey-katin.jpg', Astro.site).href,
+  jobTitle: 'Energy Data Scientist',
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'North Carolina State University' },
+    { '@type': 'CollegeOrUniversity', name: 'Technische Universität Dresden' },
+    { '@type': 'CollegeOrUniversity', name: 'NUST MISiS' },
+  ],
+  sameAs: ['https://github.com/cuttin', 'https://www.linkedin.com/in/alexey-katin-77603517/', SCHOLAR],
+};
+---
+<Base title="Alexey Katin" description="Alexey Katin builds probabilistic forecasts for electricity markets. PhD research: Bayesian forecasts of hypoxia and algal blooms in estuaries." jsonLd={jsonLd}>
+<div class="hero"><img src="/img/alexey-katin.jpg" alt="Alexey Katin" width="132" height="132"><h1>Forecasting under uncertainty. <span>Energy markets now, estuaries before.</span></h1></div>
+<p class="lead">I build probabilistic forecasts and work on how their uncertainty should change a decision.
+Before energy I forecast low-oxygen events and algal blooms in estuaries with Bayesian models.</p>
+<div class="links"><a href="https://github.com/cuttin">GitHub</a><a href="https://www.linkedin.com/in/alexey-katin-77603517/">LinkedIn</a><a href={SCHOLAR}>Google Scholar</a><a href="mailto:alexey.katin@gmail.com">Email</a></div>
+<p class="k">Selected</p>
+<div class="sel">
+<a href="/projects/estuary-forecasting/"><b>Forecasting hypoxia and algal blooms in estuaries</b><span>PhD research, Neuse River Estuary and Gulf of Mexico</span></a>
+<a href="https://doi.org/10.1093/mcfafs/vtaf038"><b>Effects of hypoxia and other factors on the spatial distributions of brown and white shrimp on the Louisiana shelf</b><span>Marine and Coastal Fisheries, 2025</span></a>
+<a href="https://doi.org/10.5194/hess-26-1131-2022"><b>Temporally resolved coastal hypoxia forecasting and uncertainty assessment via Bayesian mechanistic modeling</b><span>Hydrology and Earth System Sciences, 2022</span></a>
+</div>
+</Base>

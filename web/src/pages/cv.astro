@@ -1,0 +1,42 @@
+---
+// Experience and education appear only on this page, not on Home or About.
+import Base from '../layouts/Base.astro';
+
+const ROLES = [
+  ['Energy Data Scientist', 'Arevon Energy · Remote', 'Jun 2026 - present',
+    'Day-ahead nodal price forecasts and automated bidding for battery storage and solar assets in CAISO and MISO.'],
+  ['Principal Quantitative Analyst', 'NextEra Analytics · Juno Beach, FL', 'Sep 2024 - Jun 2026',
+    'Day-ahead, real-time and long-term power price forecast models across US ISOs; scenario and optimization models for energy storage dispatch and asset valuation.'],
+  ['Quantitative Analyst', 'NextEra Analytics · Juno Beach, FL', 'Aug 2022 - Aug 2024',
+    'Machine learning models for power market revenue forecasting; day-ahead vs. real-time price spread (DART) forecasts for ERCOT settlement points.'],
+  ['Postdoctoral Researcher', 'North Carolina State University · Raleigh, NC', 'Feb 2021 - Jul 2022',
+    'Bayesian spatiotemporal models linking brown and white shrimp distributions on the Louisiana shelf to hypoxia and other environmental factors.'],
+  ['Research Assistant (PhD)', 'North Carolina State University · Raleigh, NC', 'Jan 2016 - Dec 2020',
+    'Bayesian mechanistic and statistical models forecasting hypoxia and algal blooms in the Neuse River Estuary and the northern Gulf of Mexico.'],
+  ['Marketing Executive', 'Bosch Rexroth · Moscow, Russia', '2010 - 2013',
+    'Industrial hydraulics market analysis, trade show and conference management, corporate website.'],
+];
+const EDU = [
+  ['PhD, Civil Engineering', 'North Carolina State University · Raleigh, NC', '2020',
+    'Dissertation: Bayesian modeling of coastal eutrophication to inform management solutions for hypoxia and algal blooms. Advisor: Daniel R. Obenour.'],
+  ['MS, Hydro Science and Engineering', 'Technische Universität Dresden · Dresden, Germany', '2015',
+    'Thesis on submarine groundwater discharge in a granitic coastal area of Japan, using radon-222 as a natural tracer.'],
+  ['BS, Environmental Engineering', 'NUST MISiS · Moscow, Russia', '2010', ''],
+];
+---
+<Base title="CV · Alexey Katin" description="CV of Alexey Katin: energy data scientist, power market price forecasting, PhD in civil engineering from NC State." current="cv">
+<h1>CV</h1>
+<h2>Experience</h2>
+{ROLES.map(([t, org, when, d]) => (
+  <div class="cv-role"><b>{t}</b><span class="when">{when}</span><span class="org">{org}</span><p>{d}</p></div>
+))}
+<h2>Education</h2>
+{EDU.map(([t, org, when, d]) => (
+  <div class="cv-role"><b>{t}</b><span class="when">{when}</span><span class="org">{org}</span>{d && <p>{d}</p>}</div>
+))}
+<h2>Skills</h2>
+<p>Time series and probabilistic forecasting, Bayesian and stochastic modeling, gradient boosting, quantile regression and conformal calibration, linear and mixed-integer optimization.
+R (tidyverse, data.table, Stan), Python (pandas, NumPy, scikit-learn, Pyomo), SQL, AWS, GCP, Docker, Git.</p>
+<h2>Publications</h2>
+<p>Four first-author papers, listed on the <a href="/projects/estuary-forecasting/#pubs">PhD research page</a> and on <a href="https://scholar.google.com/citations?user=zziLmMUAAAAJ&hl=en">Google Scholar</a>.</p>
+</Base>
