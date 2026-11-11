@@ -36,4 +36,4 @@ python -I tools/convert_memories.py
 
 `.github/workflows/deploy.yml` builds and runs `wrangler deploy` on every push to `main` that touches `web/`.
 It needs the repository secret `CLOUDFLARE_API_TOKEN` and the repository variable `CF_ACCOUNT_ID`.
-See `docs/DOCUMENTATION.md` for the domain move.
+See `docs/DOCUMENTATION.md` for the domain move and the email forwarding behind hello@alexeykatin.xyz.

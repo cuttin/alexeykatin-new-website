@@ -35,8 +35,19 @@ Astro converts every photo to WebP at build time; timeline thumbnails are 240 px
 Dark is the default unless the system prefers light; the button (crossingforecast sun/moon icon) stores the choice
 in localStorage (wrapped in try/catch). An inline script in `<head>` applies the stored theme before first paint.
 
-## Domain (not done yet)
+## Domain and email
 
-alexeykatin.xyz is registered at reg.ru and currently points at GitHub Pages (A 185.199.108.153, `www` CNAME).
-Plan: move DNS to Cloudflare, attach the domain to the `alexeykatin` Worker, then transfer the registrar (unlock,
-EPP code from reg.ru).
+The site runs on its own Cloudflare account ("alexeykatin.xyz"); the test address is
+https://alexeykatin.alexeykatin-xyz.workers.dev/. The first deploy went green on 2026-11-10.
+
+alexeykatin.xyz is still registered at reg.ru, but since 2026-11-10 its nameservers are Cloudflare's
+(chuck / magdalena.ns.cloudflare.com). Remaining steps:
+1. In Cloudflare DNS, delete the four imported GitHub Pages records (three A 185.199.x.153 and the `www` CNAME),
+   then right away add `alexeykatin.xyz` and `www.alexeykatin.xyz` as Custom domains on the `alexeykatin` Worker.
+   Cloudflare refuses a custom domain while another record exists for the same name.
+2. Turn off GitHub Pages on the old repo `cuttin/alexeykatin` and archive it.
+3. Transfer the registration to Cloudflare Registrar: unlock at reg.ru, get the EPP code, enter it under Transfer
+   Domains. The zone must be Active on Cloudflare first. DNSSEC is off, so no 24 h wait is needed.
+
+The site's contact address is hello@alexeykatin.xyz. It only receives mail once Cloudflare Email Routing
+forwards it to a real inbox (Email > Email Routing on the zone, which adds the MX and SPF records).
